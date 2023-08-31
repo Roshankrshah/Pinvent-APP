@@ -118,15 +118,29 @@ const getUser = async (req, res) => {
             phone,
             bio
         });
-    }else{
+    } else {
         res.status(StatusCodes.NOT_FOUND);
         throw new Error("User not found");
     }
+};
+
+const loginStatus = async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.json(false);
+    }
+
+    const verified = jwt.verify(token, process.env.JWT_SEC);
+    if (verified) {
+        return res.json(true);
+    }
+    return res.json(false);
 }
 
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
-    getUser
+    getUser,
+    loginStatus
 };
