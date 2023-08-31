@@ -1,5 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
 const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+
+const generateToken = (id) =>{
+    return jwt.sign({id}, process.env.JWT_SEC, {expiresIn: '1d'})
+}
 
 
 const registerUser = async (req, res) => {
@@ -23,11 +28,12 @@ const registerUser = async (req, res) => {
     }
 
     const user = await User.create({ name, email, password });
+    const token = generateToken(user._id);
 
     if (user) {
         const { _id, name, email, photo, phone, bio } = user;
         res.status(StatusCodes.CREATED).json({
-            _id, name, email, photo, phone, bio
+            _id, name, email, photo, phone, bio, token
         })
     }else{
         res.status(StatusCodes.BAD_REQUEST);
