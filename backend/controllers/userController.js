@@ -93,7 +93,7 @@ const loginUser = async (req, res) => {
 
 // Logout User
 
-const logoutUser = async(req,res)=>{
+const logoutUser = async (req, res) => {
     res.cookie("token", "", {
         path: "/",
         httpOnly: true,
@@ -101,12 +101,32 @@ const logoutUser = async(req,res)=>{
         /*sameSite: "none",
         secure: true*/
     });
-    
-    return res.status(StatusCodes.OK).json({message: "Successfully Logged Out"});
+
+    return res.status(StatusCodes.OK).json({ message: "Successfully Logged Out" });
+}
+
+const getUser = async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        const { _id, name, email, photo, phone, bio } = user;
+        res.status(StatusCodes.OK).json({
+            _id,
+            name,
+            email,
+            photo,
+            phone,
+            bio
+        });
+    }else{
+        res.status(StatusCodes.NOT_FOUND);
+        throw new Error("User not found");
+    }
 }
 
 module.exports = {
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    getUser
 };
