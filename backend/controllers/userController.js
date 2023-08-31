@@ -137,10 +137,70 @@ const loginStatus = async (req, res) => {
     return res.json(false);
 }
 
+const updateUser = async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        const { name, email, photo, phone, bio } = user;
+        user.email = email;
+        user.name = req.body.name || name;
+        user.phone = req.body.phone || phone;
+        user.bio = req.body.bio || bio;
+        user.photo = req.body.photo || photo;
+
+        const updatedUser = await user.save();
+
+        res.status(StatusCodes.OK).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            photo: updatedUser.photo,
+            phone: updatedUser.phone,
+            bio: updatedUser.bio
+        });
+    } else {
+        res.status(StatusCodes.NOT_FOUND)
+        throw new Error("User Not found");
+    }
+};
+
+const changePassword = async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    const {oldPassword, password} = req.body;
+
+    if (!user) {
+        res.status(StatusCodes.BAD_REQUEST);
+        throw new Error("User not Found, please signup");
+    }
+
+    if(!oldPassword || !password){
+        res.status(StatusCodes.BAD_REQUEST);
+        throw new Error("Please provide old and new password");
+    }
+
+    const passwordIsCorrect = await bcrypt.compare(oldPassword, user.password);
+
+    if(user && passwordIsCorrect){
+        user.password = password;
+        await user.save();
+        res.status(StatusCodes.OK).send("Password change Successfully")
+    }else {
+        res.status(StatusCodes.FORBIDDEN)
+        throw new Error("Old password is incorrect");
+    }
+};
+
+const forgotPassword = async(req,res)=>{
+    res.send("chutiye");
+}
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
     getUser,
-    loginStatus
+    loginStatus,
+    updateUser,
+    changePassword,
+    forgotPassword
 };
