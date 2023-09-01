@@ -2,6 +2,9 @@ const { StatusCodes } = require('http-status-codes');
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const Token = require('../models/tokenModel');
+const crypto = require('crypto');
+const sendEmail = require('../utils/sendEmail');
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SEC, { expiresIn: '1d' })
@@ -167,32 +170,75 @@ const updateUser = async (req, res) => {
 const changePassword = async (req, res) => {
     const user = await User.findById(req.user._id);
 
-    const {oldPassword, password} = req.body;
+    const { oldPassword, password } = req.body;
 
     if (!user) {
         res.status(StatusCodes.BAD_REQUEST);
         throw new Error("User not Found, please signup");
     }
 
-    if(!oldPassword || !password){
+    if (!oldPassword || !password) {
         res.status(StatusCodes.BAD_REQUEST);
         throw new Error("Please provide old and new password");
     }
 
     const passwordIsCorrect = await bcrypt.compare(oldPassword, user.password);
 
-    if(user && passwordIsCorrect){
+    if (user && passwordIsCorrect) {
         user.password = password;
         await user.save();
         res.status(StatusCodes.OK).send("Password change Successfully")
-    }else {
+    } else {
         res.status(StatusCodes.FORBIDDEN)
         throw new Error("Old password is incorrect");
     }
 };
 
-const forgotPassword = async(req,res)=>{
-    res.send("chutiye");
+const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        res.status(StatusCodes.NOT_FOUND);
+        throw new Error("User does not exist");
+    }
+
+    let token = await Token.findOne({userId: user._id});
+    if(token){
+        await token.deleteOne();
+    }
+
+    let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
+
+    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+    await new Token({
+        userId: user._id,
+        token: hashedToken,
+        createdAt: Date.now(),
+        expiredAt: Date.now() + 30 * (60 * 100)
+    }).save();
+
+    const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+
+    const message = `
+        <h2> Hello ${user.name}</h2>
+        <p> Please use the url below to reset you password</p>
+        <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+
+        <p>Regards...</p>
+        <p>Pinvent Team</p>
+    `;
+    const subject = "Password Reset Request";
+    const send_to = user.email;
+    const sent_from = process.env.EMAIL;
+
+    sendEmail(subject,message,send_to,sent_from)
+    .then(()=>{
+            res.status(StatusCodes.OK).json({success: true,message: "Reset Email Sent"});
+    })
+    .catch(err=>{
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({success: false, message:"Email not sent, please try again"});
+    });
 }
 module.exports = {
     registerUser,
