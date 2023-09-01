@@ -239,7 +239,33 @@ const forgotPassword = async (req, res) => {
     .catch(err=>{
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({success: false, message:"Email not sent, please try again"});
     });
-}
+};
+
+const resetPassword = async(req,res)=>{
+    const {password} = req.body;
+    const {resetToken} = req.params;
+
+    const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+    const userToken = await Token.findOne({
+        token: hashedToken,
+        expiredAt: {$gt: Date.now()}
+    });
+
+    if(!userToken){
+        res.status(StatusCodes.NOT_FOUND);
+        throw new Error("Invalid or Expired token");
+    }
+
+    const user = await User.findOne({_id: userToken.userId});
+
+    user.password = password;
+    await user.save();
+    res.status(StatusCodes.OK).json({
+        message: "Password Reset Successful, Please Login"
+    });
+};
+
 module.exports = {
     registerUser,
     loginUser,
@@ -248,5 +274,6 @@ module.exports = {
     loginStatus,
     updateUser,
     changePassword,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 };
