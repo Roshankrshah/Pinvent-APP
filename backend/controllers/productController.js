@@ -53,7 +53,23 @@ const getProducts = async(req,res)=>{
     res.status(StatusCodes.OK).json(products);
 }
 
+const getProduct = async(req,res)=>{
+    const product = await Product.findById(req.params.id);
+    if(!product){
+        res.status(StatusCodes.NOT_FOUND);
+        throw new Error("Product not Found");
+    }
+
+    if(product.user.toString() !== req.user.id){
+        res.status(StatusCodes.UNAUTHORIZED);
+        throw new Error("User not authorized");
+    }
+
+    res.status(StatusCodes.OK).json(product);
+};
+
 module.exports = {
     createProduct,
-    getProducts
+    getProducts,
+    getProduct
 }
