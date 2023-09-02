@@ -4,16 +4,16 @@ const cloudinary = require('cloudinary').v2;
 const {fileSizeFormatter} = require('../utils/fileUpload');
 
 const createProduct = async(req,res)=>{
-    /*const {name, sku, category, quantity, price, description} = req.body;
+    const {name, sku, category, quantity, price, description} = req.body;
 
     if(!name || !category || !quantity || !price || !description){
         res.status(StatusCodes.BAD_REQUEST);
         throw new Error("Please fill in all fields");
-    }*/
+    }
 
     let fileData = {};
     let uploadedFile;
-    
+
     if(req.file){
         try{
             uploadedFile = await cloudinary.uploader.upload(req.file.path,{
@@ -33,7 +33,18 @@ const createProduct = async(req,res)=>{
         fileSize: fileSizeFormatter(req.file.size,2)
     };
 
-    res.status(StatusCodes.CREATED).json(fileData);
+    const product = await Product.create({
+        user: req.user.id,
+        name, 
+        sku,
+        category,
+        quantity,
+        price,
+        description,
+        image: fileData,
+    });
+
+    res.status(StatusCodes.CREATED).json(product);
 }
 
 const getProducts = async(req,res)=>{
