@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userRoute = require('./routes/userRoutes');
+const contactRoute = require('./routes/contactRoute');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 const cookieParser = require('cookie-parser');
 
@@ -20,6 +21,7 @@ app.get('/',(req,res)=>{
 });
 
 app.use('/api/users',userRoute);
+app.use('/api/contactus',contactRoute);
 
 app.use(errorHandlerMiddleware);
 
