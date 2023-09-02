@@ -10,5 +10,5 @@ const {
 const {upload} = require('../utils/fileUpload');
 
 router.post("/",protect,upload.single("image"),createProduct);
-router.get('/',getProducts);
+router.get('/',protect,getProducts);
 module.exports = router;
