@@ -9,6 +9,7 @@ const contactRoute = require('./routes/contactRoute');
 const productRoute = require('./routes/productRoute');
 const errorHandlerMiddleware = require('./middleware/error-handler');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const cloudinary = require('cloudinary').v2;
 cloudinary.config({
