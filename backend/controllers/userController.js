@@ -37,8 +37,8 @@ const registerUser = async (req, res) => {
         path: "/",
         httpOnly: true,
         expires: new Date(Date.now() + 1000 * 86400),
-        /*sameSite: "none",
-        secure: true*/
+        sameSite: "None",
+        secure: true
     })
 
     if (user) {
@@ -73,10 +73,10 @@ const loginUser = async (req, res) => {
         const token = generateToken(user._id);
         res.cookie("token", token, {
             path: "/",
-            httpOnly: true,
             expires: new Date(Date.now() + 1000 * 86400),
-            /*sameSite: "none",
-            secure: true*/
+            sameSite: 'None',
+            httpOnly: false,
+            secure: true
         })
         const { _id, name, email, photo, phone, bio } = user;
         res.status(StatusCodes.OK).json({
@@ -101,8 +101,8 @@ const logoutUser = async (req, res) => {
         path: "/",
         httpOnly: true,
         expires: new Date(0),
-        /*sameSite: "none",
-        secure: true*/
+        sameSite: "None",
+        secure: true
     });
 
     return res.status(StatusCodes.OK).json({ message: "Successfully Logged Out" });
