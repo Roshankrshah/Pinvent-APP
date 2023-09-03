@@ -14,14 +14,18 @@ loginBtn.addEventListener('click', async(e) => {
         body: JSON.stringify(user),
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        credentials: 'include'
     });
     const resData = await resp.json();
     if (resData.message) {
         alert(resData.message);
     } else {
         console.log(resData);
-        alert('Login successful');
+        //alert("login");
+        localStorage.setItem('id',resData._id);
+        localStorage.setItem('name',resData.name);
+        location.href = 'http://127.0.0.1:5500/frontend/dashboard/dashboard.html';
     }
 });
 
@@ -40,13 +44,16 @@ registerBtn.addEventListener('click', async (e) => {
         body: JSON.stringify(user),
         headers: {
             'Content-Type': 'application/json',
-        }
+        },
+        credentials: 'include'
     });
     const resData = await resp.json();
     if (resData.message) {
         alert(resData.message);
     } else {
         console.log(resData);
-        alert('Registration successful');
+        localStorage.setItem('id',resData._id);
+        localStorage.setItem('name',resData.name);
+        location.href = 'http://127.0.0.1:5500/frontend/dashboard/dashboard.html';
     }
 });
