@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema({
     photo: {
         type: String,
         required: [true, 'Please add photo'],
-        default: "../public/images/avatar.png"
+        default: "https://res.cloudinary.com/dtnfmztuf/image/upload/v1693728940/Pinvent%20APP/avatar_qi74mw.png"
     },
     phone: {
         type: String,
