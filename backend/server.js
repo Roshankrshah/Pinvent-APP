@@ -26,10 +26,14 @@ app.use(cors({
     methods: ['GET','POST','PATCH','DELETE']
   }));
 
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+app.use(express.static('./public'));
 app.use(express.json());
+
 app.use(cookieParser());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

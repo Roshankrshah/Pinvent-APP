@@ -4,7 +4,7 @@ const cloudinary = require('cloudinary').v2;
 const { fileSizeFormatter } = require('../utils/fileUpload');
 
 const createProduct = async (req, res) => {
-    const { name, sku, category, quantity, price, description } = req.body;
+    const { name, category, quantity, price, description } = req.body;
 
     if (!name || !category || !quantity || !price || !description) {
         res.status(StatusCodes.BAD_REQUEST);
@@ -24,19 +24,17 @@ const createProduct = async (req, res) => {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR);
             throw new Error("Image could not be uploaded");
         }
+        fileData = {
+            fileName: req.file.originalname,
+            filePath: uploadedFile.secure_url,
+            fileType: req.file.mimetype,
+            fileSize: fileSizeFormatter(req.file.size, 2)
+        };
     }
-
-    fileData = {
-        fileName: req.file.originalname,
-        filePath: uploadedFile.secure_url,
-        fileType: req.file.mimetype,
-        fileSize: fileSizeFormatter(req.file.size, 2)
-    };
 
     const product = await Product.create({
         user: req.user.id,
         name,
-        sku,
         category,
         quantity,
         price,
@@ -44,7 +42,11 @@ const createProduct = async (req, res) => {
         image: fileData,
     });
 
-    res.status(StatusCodes.CREATED).json(product);
+    if (product) {
+        return res.status(StatusCodes.CREATED).send("success");
+    } else {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+    }
 }
 
 const getProducts = async (req, res) => {
