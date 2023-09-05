@@ -81,3 +81,17 @@ input[type="password"] {
 .btn:hover {
     background-color: #0056b3;
 }
+
+.change-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3 ease;
+}
+
+.change-btn:hover {
+    background-color: #2a6bb1;
+}

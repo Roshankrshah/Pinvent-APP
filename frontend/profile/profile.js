@@ -2,6 +2,7 @@ const userDetails = document.querySelector('.user-details');
 const profileImage = document.querySelector('.profile-image');
 const updateDetails = document.querySelector('.update-user-details');
 const updateImage = document.querySelector('.update-profile-image');
+const changeBtn = document.querySelector('.change-btn');
 
 const start = async () => {
     const res = await fetch('http://localhost:3202/api/users/getuser', {
@@ -55,7 +56,7 @@ const start = async () => {
         const bio = document.getElementById('bioTextarea').value;
         //const photo = document.getElementById('InputName').value;
         console.log(name, email, phone, bio);
-        const updateUser = {name:name,email:email,phone: phone,bio:bio};
+        const updateUser = { name: name, email: email, phone: phone, bio: bio };
 
         const res = await fetch('http://localhost:3202/api/users/updateuser', {
             method: 'PATCH',
@@ -72,6 +73,32 @@ const start = async () => {
         location.reload();
     })
 }
+
+changeBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const password = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const user = { oldPassword: password, password: newPassword };
+    if (newPassword.length > 6 && newPassword == confirmPassword) {
+        const res = await fetch('http://localhost:3202/api/users/changepassword', {
+            method: 'PATCH',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include'
+        });
+        if (res.status === 200) {
+            alert('Password Updated');
+        } else {
+            const resData = await res.json();
+            alert(resData.message);
+        }
+    } else {
+        alert('Check Password Again');
+    }
+})
 
 start();
 
