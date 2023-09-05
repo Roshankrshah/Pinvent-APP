@@ -57,3 +57,18 @@ registerBtn.addEventListener('click', async (e) => {
         location.href = 'http://127.0.0.1:5500/frontend/dashboard/dashboard.html';
     }
 });
+
+const start = async()=>{
+    const res = await fetch('http://localhost:3202/api/users/loggedin',{
+        credentials: 'include'
+    });
+    const resData = await res.json();
+    const dashboard = document.querySelector('.dashboard');
+    if(resData){
+        dashboard.classList.add('active');
+    }else{
+        dashboard.classList.remove('active');
+    }
+}
+
+start();
