@@ -234,7 +234,7 @@ const forgotPassword = async (req, res) => {
 
     sendEmail(subject,message,send_to,sent_from)
     .then(()=>{
-            res.status(StatusCodes.OK).json({success: true,message: "Reset Email Sent"});
+            res.status(StatusCodes.OK).json({success: true,message: "Reset Email Sent",url:resetUrl});
     })
     .catch(err=>{
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({success: false, message:"Email not sent, please try again"});
