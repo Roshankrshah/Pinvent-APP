@@ -22,7 +22,7 @@ hr {
 
 .box {
     display: flex;
-    padding: 5px;
+    padding: 10px;
     border: 1px solid rgb(95, 240, 192);
     margin: 5px;
     align-items: center;
@@ -32,15 +32,53 @@ hr {
     cursor: pointer;
 }
 
-.box:hover{
+.box:hover {
     background-color: rgb(69, 203, 158);
 }
 
 .inner-box {
-    padding: 5px;
-    margin: 5px;
+    padding: 10px;
+    margin: 10px;
+    font-size: 30px;
 }
 
-i{
-    font-size: 30px;
+.inner-box-icon{
+    font-size: 40px;
+}
+
+table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 10px 50px 20px 50px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:hover{
+    background-color: azure;
+}
+
+.view{
+    font-size: 20px;
+    color: rgb(133, 27, 133);
+}
+
+.delete{
+    font-size: 20px;
+    color: red;
+}
+
+.edit{
+    font-size: 20px;
+    color: green;
 }
