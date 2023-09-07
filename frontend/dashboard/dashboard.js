@@ -134,19 +134,35 @@ const editModal = (resData) => {
     <div class="modal-container">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Product Details</h5>
+                <h5 class="modal-title">Update Product Details</h5>
             </div>
             <div class="modal-body">
-                       
-                <p>
-                    <strong>Product Image</strong><br> <img src="${resData.image.filePath}" width=200 height =200><br>
-                    <strong>Product Name:</strong> ${resData.name}<br>
-                    <strong>Product Category:</strong> ${resData.category}<br>
-                    <strong>Product Price:</strong> ₹${resData.price}<br>
-                    <strong>Product Quantity:</strong> ${resData.quantity}<br>
-                    <strong>Product Description:</strong> ${resData.description}<br>
-                    <strong>Product Added On:</strong> ${new Date(resData.createdAt).toLocaleDateString()}<br>
-                </p>
+                <form>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Product Photo</label>
+                        <input class="form-control" type="file" id="formFile" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="InputName" value="${resData.name}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputCategory" class="form-label">Product Category</label>
+                        <input type="text" class="form-control" id="InputCategory" value="${resData.category}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputPrice" class="form-label">Product Price</label>
+                        <input type="text" class="form-control" id="InputPrice" value="${resData.price}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputQuantity" class="form-label">Product Quantity</label>
+                        <input type="text" class="form-control" id="InputQuantity" value="${resData.quantity}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputDescription" class="form-label">Product Description</label>
+                        <textarea class="form-control" id="InputDescription" rows="3">${resData.description}</textarea>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary viewclose-btn" data-bs-dismiss="modal">Cancel</button>
@@ -157,10 +173,43 @@ const editModal = (resData) => {
 
     openModal.appendChild(viewModal);
     let viewcloseBtn = document.querySelector(".viewclose-btn");
+    let updateBtn = document.querySelector(".update-btn");
 
     viewcloseBtn.addEventListener("click", () => {
         openModal.removeChild(viewModal);
     });
+
+    updateBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const image = document.getElementById('formFile');
+        const productname = document.getElementById('InputName');
+        const category = document.getElementById('InputCategory');
+        const price = document.getElementById('InputPrice');
+        const quantity = document.getElementById('InputQuantity');
+        const desc = document.getElementById('InputDescription');
+
+        const imageFile = image.files[0];
+        const formData = new FormData();
+        formData.append('image', imageFile);
+        formData.append('name', productname.value);
+        formData.append('category', category.value);
+        formData.append('price', price.value);
+        formData.append('quantity', quantity.value);
+        formData.append('description', desc.value);
+
+        const res = await fetch(`http://localhost:3202/api/products/${resData._id}`, {
+            method: 'PATCH',
+            body: formData,
+            credentials: 'include'
+        });
+
+        if(res.status == 200){
+            alert('Product Updated');
+            location.reload();
+        }else{
+            alert('Try Again');
+        }
+    })
 }
 
 const editProduct = async (e) => {
