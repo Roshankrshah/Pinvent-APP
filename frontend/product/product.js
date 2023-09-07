@@ -28,4 +28,16 @@ submitBtn.addEventListener('click', async (e) => {
         alert('New Product Added');
         location.reload();
     }
-})
+});
+
+const logoutBtn = document.querySelector('.logoutbtn');
+logoutBtn.addEventListener('click', () => {
+
+    fetch('http://localhost:3202/api/users/logout', {
+        credentials: 'include'
+    });
+    localStorage.removeItem('name');
+    localStorage.removeItem('id');
+    console.log(document.cookie);
+    location.href = 'http://127.0.0.1:5500/frontend/home.html';
+});
