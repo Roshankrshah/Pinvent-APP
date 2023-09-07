@@ -71,14 +71,80 @@ tr:hover{
 .view{
     font-size: 20px;
     color: rgb(133, 27, 133);
+    border: none;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.view:hover{
+    color: rgb(215, 33, 215);
 }
 
 .delete{
     font-size: 20px;
-    color: red;
+    color: rgb(133, 9, 9);
+    border: none;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.delete:hover{
+    color: rgb(241, 7, 7);
 }
 
 .edit{
     font-size: 20px;
     color: green;
+    border: none;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.edit:hover{
+    color: rgb(19, 219, 19);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0, 0.5);
+    display: grid;
+    place-items: center;
+    transition: all 0.3s linear;
+    visibility: hidden;
+    z-index: -10;
+}
+
+/* OPEN/CLOSE MODAL */
+.open-modal {
+    visibility: visible;
+    z-index: 10;
+}
+
+.modal-container {
+    background: white;
+    border-radius: 5px;
+    width: 30vw;
+    max-width: 1000px;
+    display: grid;
+    align-content: stretch;
+    position: relative;
+}
+
+.modal-header{
+    background-color: blue;
+    color: white;
+    padding-left: 5px;
+}
+
+.modal-body{
+    padding:10px 10px;
+}
+
+.modal-footer{
+    padding: 5px 5px;
+    gap: 2px;
 }
