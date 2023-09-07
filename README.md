@@ -4,6 +4,7 @@ This is personal inventory management site.
 - Dashboard to show the inventory stats and each inventory item
 - User Profile Section
 - Add new Product Section
+- View, Edit and Delete button for Product
 - Contact Us Section for any bug or query occur to user they can email admin.
 - Forgot password feature in which email link send to user to change their password.
 
@@ -28,6 +29,12 @@ This is personal inventory management site.
 
 - Add Product Page
 - ![image](https://github.com/Roshankrshah/Pinvent-APP/assets/91787844/941717ef-6533-47a0-b0bb-66fa38735f2f)
+
+- View Product
+- ![image](https://github.com/Roshankrshah/Pinvent-APP/assets/91787844/cee06988-d20b-4b44-bab4-60f874bdeb25)
+
+- Edit Product
+- ![image](https://github.com/Roshankrshah/Pinvent-APP/assets/91787844/ccd77dca-4062-434c-b544-c22fbba0f9d6)
 
 - User Profile Page
 - ![image](https://github.com/Roshankrshah/Pinvent-APP/assets/91787844/b94f6a66-882d-4dd5-99b4-4123d1e087ac)
