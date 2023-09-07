@@ -40,9 +40,9 @@ const start = async () => {
     const fourthBox = document.querySelector('.fourth-box');
 
     firstBox.innerHTML = `Total Products <br> ${totalProduct}`;
-    secondBox.innerHTML = `Total Store Value <br> ${category.size}`;
-    thirdBox.innerHTML = `Out of Stock <br> ${totalCost}`;
-    fourthBox.innerHTML = `All Categories <br> ${outOfStock}`;
+    secondBox.innerHTML = `Total Store Value <br> ${totalCost}`;
+    thirdBox.innerHTML = `Out of Stock <br> ${outOfStock}`;
+    fourthBox.innerHTML = `All Categories <br> ${category.size}`;
 
     const productTable = document.querySelector('table');
 
@@ -75,7 +75,7 @@ const start = async () => {
     editBtns.forEach(editBtn => {
         editBtn.addEventListener('click', editProduct);
     });
-    deleteBtns.forEach(deleteBtn=>{
+    deleteBtns.forEach(deleteBtn => {
         deleteBtn.addEventListener('click', deleteProduct);
     });
 };
@@ -125,8 +125,7 @@ const viewProduct = async (e) => {
     modalAddition(resData);
 }
 
-const editProduct = (e) => {
-    console.log(e.currentTarget.dataset.id);
+const editModal = (resData) => {
     const openModal = document.querySelector('.openModal');
     const viewModal = document.createElement('div');
     viewModal.classList.add('modal-overlay');
@@ -135,25 +134,43 @@ const editProduct = (e) => {
     <div class="modal-container">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">Product Details</h5>
             </div>
             <div class="modal-body">
-                <h2></h2>
-                <h5></h5>
-                <p></p>
+                       
+                <p>
+                    <strong>Product Image</strong><br> <img src="${resData.image.filePath}" width=200 height =200><br>
+                    <strong>Product Name:</strong> ${resData.name}<br>
+                    <strong>Product Category:</strong> ${resData.category}<br>
+                    <strong>Product Price:</strong> ₹${resData.price}<br>
+                    <strong>Product Quantity:</strong> ${resData.quantity}<br>
+                    <strong>Product Description:</strong> ${resData.description}<br>
+                    <strong>Product Added On:</strong> ${new Date(resData.createdAt).toLocaleDateString()}<br>
+                </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary viewclose-btn" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary book-btn">Book</button>
+                <button type="button" class="btn btn-primary update-btn">Update</button>
             </div>
         </div>
     </div>`;
+
     openModal.appendChild(viewModal);
     let viewcloseBtn = document.querySelector(".viewclose-btn");
 
     viewcloseBtn.addEventListener("click", () => {
         openModal.removeChild(viewModal);
     });
+}
+
+const editProduct = async (e) => {
+    console.log(e.currentTarget.dataset.id);
+    const res = await fetch(`http://localhost:3202/api/products/${e.currentTarget.dataset.id}`, {
+        credentials: 'include'
+    });
+    const resData = await res.json();
+    console.log(resData);
+    editModal(resData);
 }
 
 const deleteProduct = () => {
