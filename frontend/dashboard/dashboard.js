@@ -52,9 +52,9 @@ const start = async () => {
                 <td>${index + 1}</td>
                 <td>${product.name}</td>
                 <td>${product.category}</td>
-                <td>${product.price}</td>
+                <td>₹${product.price}</td>
                 <td>${product.quantity}</td>
-                <td>${product.quantity * product.price}</td>
+                <td>₹${product.quantity * product.price}</td>
                 <td>
                     <button class="btn view" data-id="${product._id}"><i class="fa-regular fa-eye"></i> </button>
                     <button class="edit" data-id="${product._id}"><i class="fa-regular fa-pen-to-square"></i></button> 

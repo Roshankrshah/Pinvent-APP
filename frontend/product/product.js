@@ -19,14 +19,13 @@ submitBtn.addEventListener('click', async (e) => {
     formData.append('description', desc.value);
 
     try {
-        await fetch('http://localhost:3202/api/products', {
+        const res = await fetch('http://localhost:3202/api/products', {
             method: 'POST',
             body: formData,
             credentials: 'include'
         });
-    } catch (Err) {
+    } catch {
         alert('New Product Added');
-        location.reload();
     }
 });
 
