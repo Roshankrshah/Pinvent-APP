@@ -125,7 +125,7 @@ const viewProduct = async (e) => {
     modalAddition(resData);
 }
 
-const editModal = (resData) => {
+const editModal = async(resData) => {
     const openModal = document.querySelector('.openModal');
     const viewModal = document.createElement('div');
     viewModal.classList.add('modal-overlay');
@@ -222,8 +222,17 @@ const editProduct = async (e) => {
     editModal(resData);
 }
 
-const deleteProduct = () => {
-
+const deleteProduct = async(e) => {
+    const res = await fetch(`http://localhost:3202/api/products/${e.currentTarget.dataset.id}`,{
+        method: 'DELETE',
+        credentials: 'include'
+    });
+    if(res.status == 200){
+        alert('Product Deleted');
+        location.reload();
+    }else{
+        alert('Try Again');
+    }
 }
 
 start();
