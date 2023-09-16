@@ -21,7 +21,7 @@ changeBtn.addEventListener('click', async (e) => {
         console.log(resData);
         localStorage.removeItem("url");
         alert('Password Reset, Login Again');
-        window.location.href = 'http://127.0.0.1:5500/frontend/home.html';
+        window.location.href = '/frontend/home.html';
     } else {
         alert('Check Password Again');
     }

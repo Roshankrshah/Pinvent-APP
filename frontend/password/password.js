@@ -2,7 +2,7 @@ const resetBtn = document.querySelector('.reset-btn');
 const backBtn = document.querySelector('.back-btn');
 
 backBtn.addEventListener('click', () => {
-    window.location.href = 'http://127.0.0.1:5500/frontend/home.html';
+    window.location.href = '/frontend/home.html';
 });
 
 resetBtn.addEventListener('click', async (e) => {
@@ -21,6 +21,6 @@ resetBtn.addEventListener('click', async (e) => {
     alert(resData.message);
     if (resData.success) {
         localStorage.setItem('url', resData.url);
-        window.location.href = 'http://127.0.0.1:5500/frontend/password/reset.html';
+        window.location.href = '/frontend/password/reset.html';
     }
 });

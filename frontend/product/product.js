@@ -38,5 +38,5 @@ logoutBtn.addEventListener('click', () => {
     localStorage.removeItem('name');
     localStorage.removeItem('id');
     console.log(document.cookie);
-    location.href = 'http://127.0.0.1:5500/frontend/home.html';
+    location.href = '/frontend/home.html';
 });

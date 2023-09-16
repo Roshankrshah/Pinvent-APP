@@ -25,7 +25,7 @@ loginBtn.addEventListener('click', async(e) => {
         //alert("login");
         localStorage.setItem('id',resData._id);
         localStorage.setItem('name',resData.name);
-        location.href = 'http://127.0.0.1:5500/frontend/dashboard/dashboard.html';
+        location.href = '/frontend/dashboard/dashboard.html';
     }
 });
 
@@ -54,7 +54,7 @@ registerBtn.addEventListener('click', async (e) => {
         console.log(resData);
         localStorage.setItem('id',resData._id);
         localStorage.setItem('name',resData.name);
-        location.href = 'http://127.0.0.1:5500/frontend/dashboard/dashboard.html';
+        location.href = '/frontend/dashboard/dashboard.html';
     }
 });
 
